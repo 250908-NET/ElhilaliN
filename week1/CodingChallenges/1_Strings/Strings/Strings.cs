@@ -38,7 +38,7 @@ namespace StringManipulationChallenge
         /// <returns></returns>       
         public static string StringToLower(string usersString)
         {
-            throw new NotImplementedException("StringToUpper method not implemented.");
+            return usersString.ToLower();
         }
 
         /// <summary>
@@ -51,7 +51,7 @@ namespace StringManipulationChallenge
         /// <returns></returns>
         public static string StringTrim(string usersStringWithWhiteSpace)
         {
-            throw new NotImplementedException("StringTrim method not implemented.");
+            return usersStringWithWhiteSpace.Trim();
         }
 
         /// <summary>
@@ -66,7 +66,7 @@ namespace StringManipulationChallenge
         /// <returns></returns>
         public static string StringSubstring(string x, int firstElement, int lengthOfSubsring)
         {
-            throw new NotImplementedException("StringSubstring method not implemented.");
+            return x.Substring(firstElement, lengthOfSubsring);
         }
 
         /// <summary>
@@ -81,7 +81,17 @@ namespace StringManipulationChallenge
         /// <returns></returns>
         public static int SearchChar(string userInputString, char charUserWants)
         {
-            throw new NotImplementedException("SearchChar method not implemented.");
+            for (int i = 0; i < userInputString.Length; i++)
+            {
+                // Get substring of length 1 at position i
+                string currentChar = userInputString.Substring(i, 1);
+                // Compare with the character 
+                if (currentChar == charUserWants.ToString())
+                {
+                    return i;
+                }
+            }
+            return -1; // not found
         }
 
         /// <summary>
@@ -96,7 +106,7 @@ namespace StringManipulationChallenge
         /// <returns></returns>
         public static string ConcatNames(string fName, string lName)
         {
-            throw new NotImplementedException("ConcatNames method not implemented.");
+            return String.Concat(fName, " ", lName);
         }
     }//end of program
 }

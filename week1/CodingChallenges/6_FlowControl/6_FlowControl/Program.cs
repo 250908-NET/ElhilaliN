@@ -8,6 +8,9 @@ namespace _6_FlowControl
 {
     public class Program
     {
+        private static string username;
+        private static string password;
+
         static void Main(string[] args)
         {
         }
@@ -19,7 +22,27 @@ namespace _6_FlowControl
         /// <returns></returns>
         public static int GetValidTemperature()
         {
-            throw new NotImplementedException($"GetValidTemperature() has not been implemented.");
+            while (true){
+                Console.Write("Enter a temperature between -40 and 135: ");
+                string? input = Console.ReadLine();
+
+                if (int.TryParse(input, out int temp))
+                {
+                    if (temp >= -40 && temp <= 135)
+                    {
+                        return temp; // ✅ valid input, return it
+                    }
+                    else
+                    {
+                        Console.WriteLine("Error: Temperature must be between -40 and 135.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Error: Please enter a valid number.");
+                }
+            }
+            
         }
 
         /// <summary>
@@ -39,7 +62,21 @@ namespace _6_FlowControl
         /// <param name="temp"></param>
         public static void GiveActivityAdvice(int temp)
         {
-            throw new NotImplementedException($"GiveActivityAdvice() has not been implemented.");
+            string message = temp switch
+                {
+                    < -20       => "hella cold",
+                    >= -20 and < 0   => "pretty cold",
+                    >= 0 and < 20    => "cold",
+                    >= 20 and < 40   => "thawed out",
+                    >= 40 and < 60   => "feels like Autumn",
+                    >= 60 and < 80   => "perfect outdoor workout temperature",
+                    >= 80 and < 90   => "niiice",
+                    >= 90 and < 100  => "hella hot",
+                    >= 100 and < 135 => "hottest",
+                    _                => "invalid temperature range"
+                };
+
+            Console.Write(message);
         }
 
         /// <summary>
@@ -49,7 +86,13 @@ namespace _6_FlowControl
         /// </summary>
         public static void Register()
         {
-            throw new NotImplementedException($"Register() has not been implemented.");
+            Console.WriteLine("Please Provide a usename");
+            username = Console.ReadLine();
+
+            Console.WriteLine("Please Provide a password");
+            password = Console.ReadLine();
+
+            Console.WriteLine("User saved successfully!");
         }
 
         /// <summary>
@@ -62,7 +105,21 @@ namespace _6_FlowControl
         /// <returns></returns>
         public static bool Login()
         {
-            throw new NotImplementedException($"Login() has not been implemented.");
+            while (true)
+            {
+                Console.WriteLine("Please provide a username:");
+                string loginUsername = Console.ReadLine();
+
+                Console.WriteLine("Please provide a password:");
+                string loginPassword = Console.ReadLine();
+
+                if (loginUsername == username && loginPassword == password)
+                {
+                    return true;
+                }
+
+                Console.WriteLine("Invalid credentials, try again.");
+            }
         }
 
         /// <summary>
@@ -75,7 +132,9 @@ namespace _6_FlowControl
         /// <param name="temp"></param>
         public static void GetTemperatureTernary(int temp)
         {
-            throw new NotImplementedException($"GetTemperatureTernary() has not been implemented.");
+            if (temp <= 42) Console.WriteLine($"{temp} is too cold!");
+            else if (temp >= 43 || temp <= 78) Console.WriteLine($"{temp} is an ok temperature");
+            else Console.WriteLine($"{temp} is too hot!");
         }
     }//EoP
 }//EoN
