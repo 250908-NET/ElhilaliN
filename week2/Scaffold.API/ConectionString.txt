@@ -1,0 +1,1 @@
+Server=localhost, 1433;Database=Db; User Id=sa;Password=YourStrong@Pass123; TrustServerCertificate=True
