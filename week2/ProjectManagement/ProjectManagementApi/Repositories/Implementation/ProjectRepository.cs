@@ -12,13 +12,14 @@ public class ProjectRepository : Repository<Project>, IProjectRepository
 
     public async Task AddUserAsync(int projectId, int userId)
     {
-        Project? project = await _context.Projects.FindAsync(projectId);
+        var project = await _context.Projects.FindAsync(projectId);
+        var user = await _context.Users.FindAsync(userId);
 
         if (project == null)
-        {
-            throw new KeyNotFoundException($"Project with {projectId} cannot be found");
-        }
-        project.ManagerId = userId;
+            throw new KeyNotFoundException($"Project with ID {projectId} not found.");
+        if (user == null)
+            throw new KeyNotFoundException($"User with ID {userId} not found.");
+
         await _context.SaveChangesAsync();
     }
 
@@ -45,19 +46,44 @@ public class ProjectRepository : Repository<Project>, IProjectRepository
             await _context.SaveChangesAsync();
         }
     }
-    
+
     public async Task<List<Project>> SearchProjectsAsync(
     string? keyword)
-{
-    var query = _context.Projects.AsQueryable();
-
-    if (!string.IsNullOrWhiteSpace(keyword))
     {
-        query = query.Where(p => p.Name.Contains(keyword) 
-                              || (p.Description != null && p.Description.Contains(keyword)));
-    }
-    query = query.Include(p => p.Issues);
+        var query = _context.Projects.AsQueryable();
 
-    return await query.ToListAsync();
-}
+        if (!string.IsNullOrWhiteSpace(keyword))
+        {
+            query = query.Where(p => p.Name.Contains(keyword)
+                                  || (p.Description != null && p.Description.Contains(keyword)));
+        }
+        query = query.Include(p => p.Issues);
+
+        return await query.ToListAsync();
+    }
+
+    public async Task<List<User>> GetMembersAsync(int projectId)
+    {
+        var project = await _context.Projects
+            .Include(p => p.Issues)
+                .ThenInclude(i => i.AssignedUser)
+            .Include(p => p.Manager)
+            .FirstOrDefaultAsync(p => p.Id == projectId);
+
+        if (project == null)
+            throw new KeyNotFoundException($"Project with ID {projectId} not found.");
+
+        // Members = Manager + Assigned Users
+        var members = new List<User>();
+        if (project.Manager != null)
+            members.Add(project.Manager);
+
+        members.AddRange(project.Issues
+            .Where(i => i.AssignedUser != null)
+            .Select(i => i.AssignedUser!)
+            .Distinct());
+
+        return members;
+    }
+
 }

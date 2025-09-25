@@ -3,7 +3,7 @@ using ProjectManagementApi.Data;
 
 namespace ProjectManagementApi.Repositories;
 
-public class Repository<T> where T : class
+public class Repository<T> : IRepository<T> where T : class
     {
         protected readonly AppDbContext _context;
 
