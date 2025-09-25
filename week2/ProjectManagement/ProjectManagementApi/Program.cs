@@ -1,4 +1,13 @@
+using Microsoft.EntityFrameworkCore;
+using ProjectManagementApi.Data;
+
 var builder = WebApplication.CreateBuilder(args);
+
+string connectionString = File.ReadAllText("../.env");
+Console.WriteLine(connectionString);
+//Add DbContext
+builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseSqlServer(connectionString));
 
 // Add services to the container.
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi

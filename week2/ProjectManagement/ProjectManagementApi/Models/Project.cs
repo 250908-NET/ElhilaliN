@@ -7,6 +7,7 @@ public class Project
     public string? Description { get; set; }
 
     public int? ManagerId { get; set; }
-    public User? Manager{ get; set; }
-    public List<object> Issues { get; set; } = new();
+    public User? Manager { get; set; }
+
+    public List<Issue> Issues { get; set; } = new();
 }

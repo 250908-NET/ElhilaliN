@@ -1,4 +1,4 @@
-namespace ProjectManagemetApi.Models;
+namespace ProjectManagementApi.Models;
 
 public class User
 {
@@ -6,7 +6,7 @@ public class User
     public string FullName { get; set; } = null!;
     public string Email { get; set; } = null!;
 
-    public List<object> Projects { get; set; } = new();
-    public List<object> AssignedIssues { get; set; } = new();
+    public List<Project> Projects { get; set; } = new();
+    public List<Issue> AssignedIssues { get; set; } = new();
 
 }

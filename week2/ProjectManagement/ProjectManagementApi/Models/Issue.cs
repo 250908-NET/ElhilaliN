@@ -3,7 +3,6 @@ namespace ProjectManagementApi.Models;
 public class Issue
 {
     public int Id { get; set; }
-    public int Id { get; set; }
     public string Title { get; set; } = null!;
     public string? Description { get; set; }
     public IssueType Type { get; set; }

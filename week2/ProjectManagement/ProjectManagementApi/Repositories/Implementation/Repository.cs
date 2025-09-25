@@ -1,44 +1,43 @@
 using Microsoft.EntityFrameworkCore;
 using ProjectManagementApi.Data;
-using System.Linq.Expressions;
 
 namespace ProjectManagementApi.Repositories;
 
-public class Repository<T> : IRepository<T> where T : class
-{
-    private readonly AppDbContext _context;
-    private readonly DbSet<T> _dbSet;
-
-    public Repository(AppDbContext context)
+public class Repository<T> where T : class
     {
-        _context = context;
-        _dbSet = _context.Set<T>();
+        protected readonly AppDbContext _context;
+
+        public Repository(AppDbContext context) => _context = context;
+
+        public virtual async Task<IEnumerable<T>> GetAllAsync()
+        {
+            return await _context.Set<T>().ToListAsync();
+        }
+
+        public virtual async Task<T?> GetByIdAsync(int id)
+        {
+            return await _context.Set<T>().FindAsync(id);
+        }
+
+        public virtual async Task AddAsync(T entity)
+        {
+            await _context.Set<T>().AddAsync(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public virtual async Task UpdateAsync(T entity)
+        {
+            _context.Set<T>().Update(entity);
+            await _context.SaveChangesAsync();
+        }
+
+        public virtual async Task DeleteAsync(int id)
+        {
+            var entity = await GetByIdAsync(id);
+            if (entity != null)
+            {
+                _context.Set<T>().Remove(entity);
+                await _context.SaveChangesAsync();
+            }
+        }
     }
-
-    public async Task<List<T>> GetAllAsync() => await _dbSet.ToListAsync();
-
-    public async Task<T?> GetByIdAsync(int id) => await _dbSet.FindAsync(id);
-
-    public async Task AddAsync(T entity)
-    {
-        await _dbSet.AddAsync(entity);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task UpdateAsync(T entity)
-    {
-        _dbSet.Update(entity);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task DeleteAsync(T entity)
-    {
-        _dbSet.Remove(entity);
-        await _context.SaveChangesAsync();
-    }
-
-    public async Task<List<T>> FindAsync(Expression<Func<T, bool>> predicate)
-    {
-        return await _dbSet.Where(predicate).ToListAsync();
-    }
-}

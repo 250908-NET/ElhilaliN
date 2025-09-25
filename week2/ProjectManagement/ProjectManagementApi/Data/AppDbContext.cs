@@ -1,10 +1,9 @@
-using Microsoft.EntityFramewoekCore;
-using ProjectManagementApi.Data;
+using Microsoft.EntityFrameworkCore;
 using ProjectManagementApi.Models;
 
 namespace ProjectManagementApi.Data;
 
-public class AppDbContext : AppDbContext
+public class AppDbContext : DbContext
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
@@ -16,16 +15,16 @@ public class AppDbContext : AppDbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<Project>()
-            .HasOne(p => p.Manager)
-            .WithMany(u => u.Projects)
-            .HasForeignKey(p => p.ManagerId)
-            .OnDelete(DeleteBehavior.SetNull);
+        // modelBuilder.Entity<Project>()
+        //     .HasOne(p => p.Manager)
+        //     .WithMany(u => u.Projects)
+        //     .HasForeignKey(p => p.ManagerId)
+        //     .OnDelete(DeleteBehavior.SetNull);
 
-        modelBuilder.Entity<Issue>()
-            .HasOne(i => i.AssignedUser)
-            .WithMany(u => u.AssignedIssues)
-            .HasForeignKey(i => i.AssignedUserId)
-            .OnDelete(DeleteBehavior.SetNull);
+        // modelBuilder.Entity<Issue>()
+        //     .HasOne(i => i.AssignedUser)
+        //     .WithMany(u => u.AssignedIssues)
+        //     .HasForeignKey(i => i.AssignedUserId)
+        //     .OnDelete(DeleteBehavior.SetNull);
     }
 }
