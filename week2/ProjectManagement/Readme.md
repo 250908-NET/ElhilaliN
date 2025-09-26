@@ -57,7 +57,7 @@ The project uses a clean layered structure:
 | Role        | Permissions                                                                                                          |
 | ----------- | -------------------------------------------------------------------------------------------------------------------- |
 | **Admin**   | Full access: create/update/delete users, projects, issues, assign/remove users to projects                           |
-| **Manager** | Manage projects they own: create/update projects, assign/remove users, create/update/delete issues in their projects |
+| **Manager** | Manage projects they own: create/update projects, assign users, create/update/delete issues in their projects |
 | **User**    | Limited access: view projects they belong to, view issues assigned to them                                           |
 
 ### Example Access
