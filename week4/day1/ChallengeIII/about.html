@@ -35,10 +35,13 @@
       <h2>My Favorite Image</h2>
       <img src="download.png" alt="" />
     </section>
+
+    <button onclick="addItem()">Add Item</button>
     
     <script>
       const addItem = (() => {
         const items = [];
+        var i = 0;
 
         // Function to show items
       const showItems = () => {
@@ -50,7 +53,8 @@
       };
 
         return function(){
-          items.push("Dummy value");
+          items.push("Dummy value " + ++i);
+          showItems();
         }
       })();
     </script>
