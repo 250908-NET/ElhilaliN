@@ -40,11 +40,20 @@
       const addItem = (() => {
         const items = [];
 
+        // Function to show items
+      const showItems = () => {
+        if (items.length === 0) {
+          alert("The list is empty.");
+        } else {
+          alert("List of items:\n" + items.join("\n"));
+        }
+      };
+
         return function(){
           items.push("Dummy value");
         }
       })();
     </script>
-    
+
   </body>
 </html>
